@@ -201,4 +201,69 @@ class TerminalBuffer(
     }
 
     fun getScreenAsString(): String = (0 until height).joinToString("\n") { getLineAsString(it) }
+    /**
+     * Fills the current line with a specific character using current attributes.
+     * Does not move the cursor.
+     */
+    fun fillLine(char: Char) {
+        for (x in 0 until width) {
+            screen[cursorY][x].apply {
+                this.char = char
+                this.attributes = currentAttributes
+                this.isWide = false
+                this.isWidePlaceholder = false
+            }
+        }
+    }
+
+    /**
+     * Inserts text at the current cursor position.
+     * Shifts the existing text on the line to the right, possibly wrapping it.
+     */
+    fun insertText(text: String) {
+        // 1. Save everything to the right of the cursor
+        val remainder = StringBuilder()
+        for (x in cursorX until width) {
+            val cell = screen[cursorY][x]
+            if (!cell.isWidePlaceholder && cell.char != ' ') {
+                remainder.append(cell.char)
+            }
+        }
+
+        // 2. Insert the new text (cursor will move automatically)
+        writeText(text)
+
+        // 3. Remember where the cursor ended up after insertion
+        val endOfInsertX = cursorX
+        val endOfInsertY = cursorY
+
+        // 4. Append the "tail" of the old text so it shifts instead of disappearing
+        if (remainder.isNotEmpty()) {
+            writeText(remainder.toString())
+        }
+
+        // 5. Return the cursor to the end of the newly inserted text
+        setCursorPosition(endOfInsertX, endOfInsertY)
+    }
+
+    /**
+     * Returns the entire content of the terminal (Scrollback history + current screen).
+     */
+    fun getEntireContentAsString(): String {
+        val builder = java.lang.StringBuilder()
+
+        // First, append the scrollback history
+        for (line in scrollback) {
+            for (cell in line) {
+                if (!cell.isWidePlaceholder) {
+                    builder.append(cell.char)
+                }
+            }
+            builder.append("\n")
+        }
+
+        // Then, append the current screen
+        builder.append(getScreenAsString())
+        return builder.toString()
+    }
 }
