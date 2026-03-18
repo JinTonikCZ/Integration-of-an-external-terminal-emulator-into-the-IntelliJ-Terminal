@@ -200,18 +200,34 @@ The model can be extended with:
 gradlew test
 ---
 
-## Project Structure
 
-src/
-├─ main/kotlin/terminal/
-│   ├─ TerminalBuffer.kt
-│   ├─ TerminalLine.kt
-│   ├─ Cell.kt
-│   ├─ TextAttributes.kt
-│   ├─ Cursor.kt
-│   └─ TerminalColor.kt
-└─ test/kotlin/terminal/
-     └─ TerminalBufferTest.kt
+## Repository Structure
+
+```text
+IntelliJ_Terminal/
+├── src/
+│   ├── main/
+│   │   └── kotlin/
+│   │       └── terminal/
+│   │           ├── Cell.kt
+│   │           ├── Cursor.kt
+│   │           ├── TerminalBuffer.kt
+│   │           ├── TerminalColor.kt
+│   │           ├── TerminalLine.kt
+│   │           └── TextAttributes.kt
+│   └── test/
+│       └── kotlin/
+│           └── terminal/
+│               └── TerminalBufferTest.kt
+├── gradle/
+│   └── wrapper/
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── .gitignore
+└── README.md
 ---
 
 ## Conclusion
