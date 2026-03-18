@@ -34,3 +34,12 @@ If I had more time for this experiment, I would explore the following improvemen
 3. **Static Factory Methods**:
    **[Ref: Effective Java, Item 1: Consider static factory methods instead of constructors]**
    Instead of a public constructor, I would introduce static factories like `TerminalBuffer.createStandard(80, 24)` to provide clear intention and flexibility for future configurations.
+
+
+   terminal/
+├── TerminalBuffer.kt        
+├── TerminalCell.kt          
+├── CellAttributes.kt        
+├── TerminalColor.kt         
+├── TerminalLine.kt          
+└── GlyphWidth.kt
