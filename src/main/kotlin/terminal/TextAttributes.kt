@@ -1,7 +1,9 @@
 package terminal
 
-class TextAttributes (
-    val foreground: String = "default",
-    val background: String = "default",
-    val bold: Boolean = false
+data class TextAttributes(
+    val foreground: TerminalColor? = null,
+    val background: TerminalColor? = null,
+    val bold: Boolean = false,
+    val italic: Boolean = false,
+    val underline: Boolean = false
 )

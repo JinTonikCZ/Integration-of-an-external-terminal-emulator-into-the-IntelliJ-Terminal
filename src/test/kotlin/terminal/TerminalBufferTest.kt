@@ -123,7 +123,8 @@ class TerminalBufferTest {
 
         buffer.insertEmptyLineBottom()
 
-        assertEquals("def", buffer.getLineAsString(0))
+        assertEquals("abc", buffer.getLineAsString(0))
+        assertEquals("def", buffer.getLineAsString(1))
         assertEquals("   ", buffer.getLineAsString(2))
     }
 

@@ -25,6 +25,7 @@ class TerminalBuffer(
 
     private var currentAttributes = TextAttributes()
     private val cursor = Cursor(0, 0)
+    private var wrapPending = false
 
     fun setAttributes(attributes: TextAttributes) {
         currentAttributes = attributes
@@ -37,6 +38,8 @@ class TerminalBuffer(
     fun setCursor(row: Int, col: Int) {
         cursor.row = row.coerceIn(0, height - 1)
         cursor.col = col.coerceIn(0, width - 1)
+        wrapPending = false
+
     }
 
     fun moveCursorUp(n: Int = 1) {
@@ -61,6 +64,10 @@ class TerminalBuffer(
                 moveToNextLine()
                 continue
             }
+            if (wrapPending) {
+                moveToNextLine()
+                wrapPending = false
+            }
 
             screen[cursor.row].overwriteAt(cursor.col, Cell(ch, currentAttributes))
             advanceCursorAfterWrite()
@@ -72,6 +79,10 @@ class TerminalBuffer(
             if (ch == '\n') {
                 moveToNextLine()
                 continue
+            }
+            if (wrapPending) {
+                moveToNextLine()
+                wrapPending = false
             }
 
             insertCharAt(cursor.row, cursor.col, Cell(ch, currentAttributes))
@@ -100,11 +111,13 @@ class TerminalBuffer(
             screen[row] = blankLine()
         }
         setCursor(0, 0)
+        wrapPending = false
     }
 
     fun clearScreenAndScrollback() {
         history.clear()
         clearScreen()
+        wrapPending = false
     }
 
     fun getCharAt(globalRow: Int, col: Int): Char? {
@@ -150,13 +163,14 @@ class TerminalBuffer(
         } else {
             scrollUpOneLine()
         }
+        wrapPending = false
     }
 
     private fun advanceCursorAfterWrite() {
         if (cursor.col < width - 1) {
             cursor.col++
         } else {
-            moveToNextLine()
+            wrapPending = true
         }
     }
 
