@@ -219,15 +219,8 @@ IntelliJ_Terminal/
 │       └── kotlin/
 │           └── terminal/
 │               └── TerminalBufferTest.kt
-├── gradle/
-│   └── wrapper/
-├── build.gradle.kts
-├── settings.gradle.kts
-├── gradle.properties
-├── gradlew
-├── gradlew.bat
-├── .gitignore
-└── README.md
+
+```
 ---
 
 ## Conclusion
