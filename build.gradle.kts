@@ -1,9 +1,9 @@
 plugins {
-    kotlin("jvm") version "2.3.0"
+    kotlin("jvm") version "1.9.24"
 }
 
-group = "com.jetbrains.teamcity"
-version = "1.0-SNAPSHOT"
+group = "terminal"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -13,10 +13,10 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
-kotlin {
-    jvmToolchain(17)
-}
-
 tasks.test {
     useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain(17)
 }
